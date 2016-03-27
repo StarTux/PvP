@@ -25,6 +25,9 @@ public class GMSnowballFight extends GMAbstractGameMode {
         this.game = game;
     }
 
+    @Override
+    public String getName() { return "Snowball Fight"; }
+
     void giveSnowball(Player player) {
         ItemStack item = new ItemStack(Material.SNOW_BALL);
         player.getWorld().dropItem(player.getEyeLocation(), item).setPickupDelay(0);
