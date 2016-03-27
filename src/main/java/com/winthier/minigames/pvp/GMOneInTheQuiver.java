@@ -1,0 +1,81 @@
+package com.winthier.minigames.pvp;
+
+import com.winthier.minigames.MinigamesPlugin;
+import java.util.ArrayList;
+import java.util.List;
+import org.bukkit.Effect;
+import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+
+public class GMOneInTheQuiver extends GMAbstractGameMode {
+    final PvP game;
+    final List<ItemStack> starterKit = new ArrayList<>();
+
+    @Override
+    public String getName() { return "One in the Quiver"; }
+
+    GMOneInTheQuiver(PvP game) {
+        this.game = game;
+    }
+
+    @Override
+    public void tickArena(long ticks) {
+        if (ticks == 0) {
+        }
+    }
+
+    @Override
+    public void load() {
+        final ConfigurationSection config = game.getConfigFile("OneInTheQuiver");
+        for (Object o: config.getList("start")) {
+            if (o instanceof ItemStack) starterKit.add((ItemStack)o);
+        }
+    }
+
+    ItemStack arrow(int amount) {
+        return new ItemStack(Material.ARROW, amount);
+    }
+
+    @Override
+    public void onPlayerDamagePlayer(ArenaPlayer ap, ArenaPlayer victim, EntityDamageByEntityEvent event) {
+        if (ap == victim) return;
+        if (event.getDamager().getType() != EntityType.ARROW) return;
+        event.setDamage(100.0);
+    }
+
+    @Override
+    public void onPlayerKillPlayer(ArenaPlayer ap, ArenaPlayer victim, PlayerDeathEvent event) {
+        game.give(ap.getPlayer(), arrow(1));
+    }
+
+    @Override
+    public void onPlayerSpawn(ArenaPlayer ap) {
+        final Player player = ap.getPlayer();
+        if (player == null) return;
+        for (ItemStack item: starterKit) game.give(player, item);
+    }
+
+    @EventHandler
+    public void onProjectileLaunch(ProjectileLaunchEvent event) {
+        if (event.getEntity().getType() != EntityType.ARROW) return;
+        final Entity arrow = event.getEntity();
+        new BukkitRunnable() {
+            @Override public void run() {
+                if (!arrow.isValid()) {
+                    cancel();
+                    return;
+                }
+                arrow.getWorld().spigot().playEffect(arrow.getLocation(), Effect.MAGIC_CRIT, 0, 0, 0.2f, 0.2f, 0.2f, 0.25f, 8, 32);
+            }
+        }.runTaskTimer(MinigamesPlugin.getInstance(), 5L, 5L);
+    }
+}
