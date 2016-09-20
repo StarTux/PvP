@@ -222,6 +222,18 @@ public class PvP extends Game implements Listener {
         }
     }
 
+    ArenaPlayer getCurrentWinner() {
+        int max = 0;
+        ArenaPlayer result = getArenaPlayers().get(0);
+        for (ArenaPlayer ap: getArenaPlayers()) {
+            if (ap.isPlayer() && ap.getScore() > max) {
+                max = ap.getScore();
+                result = ap;
+            }
+        }
+        return result;
+    }
+
     State tickInit(long ticks)
     {
         if (ticks > state.seconds*20) return State.WAIT_FOR_PLAYERS;
@@ -473,7 +485,7 @@ public class PvP extends Game implements Listener {
         // Killer
         ArenaPlayer killer = ap.getKiller();
         if (killer != null && ap != killer) {
-            killer.onKill();
+            killer.onKill(ap);
             gameMode.onPlayerKillPlayer(killer, ap, event);
         }
     }

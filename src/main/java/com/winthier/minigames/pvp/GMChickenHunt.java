@@ -79,6 +79,9 @@ public class GMChickenHunt extends GMAbstractGameMode {
         ap.getPlayer().getInventory().addItem(bow);
         ap.getPlayer().getInventory().addItem(arrows);
         ap.getPlayer().getInventory().addItem(compass);
+        if (ap.getScore() > 0 && pvp.getCurrentWinner().equals(ap)) {
+            ap.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 9999, 0));
+        }
     }
 
     @EventHandler
@@ -98,6 +101,9 @@ public class GMChickenHunt extends GMAbstractGameMode {
         ItemStack arrow = new ItemStack(Material.ARROW);
         arrow.setAmount(3);
         killer.getInventory().addItem(arrow);
+        if (pvp.getCurrentWinner().getUuid().equals(killer.getUniqueId())) {
+            killer.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 9999, 0));
+        }
     }
 
     void spawnAChicken() {
@@ -108,6 +114,7 @@ public class GMChickenHunt extends GMAbstractGameMode {
         final double HEALTH = 20.0;
         chicken.setMaxHealth(HEALTH);
         chicken.setHealth(HEALTH);
+        chicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 99999, 0));
         currentChicken = chicken;
         // pvp.announceTitle("", "&4A chicken just spawned!");
         pvp.announce("&3&lChickenHunt&r A chicken just spawned! Kill it to win "+pointsPerChicken+" points.");

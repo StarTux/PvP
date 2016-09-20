@@ -119,8 +119,13 @@ public class ArenaPlayer
         return null;
     }
     
-    void onKill() {
-        score += 1;
+    void onKill(ArenaPlayer victim) {
+        if (victim.equals(this)) return;
+        if (game.getCurrentWinner().equals(victim) && victim.getScore() > 0) {
+            score += 10;
+        } else {
+            score += 1;
+        }
         streak += 1;
         if (streak > 2) {
             game.announce("%s is on a kill streak of %d.", name, streak);
