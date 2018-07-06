@@ -1,6 +1,5 @@
 package com.winthier.minigames.pvp;
 
-import com.winthier.minigames.util.Msg;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -37,7 +36,7 @@ public class GMSnowballFight extends GMAbstractGameMode {
         ItemStack item = new ItemStack(Material.ENDER_PEARL);
         player.getWorld().dropItem(player.getEyeLocation(), item).setPickupDelay(0);
     }
-    
+
     void giveIceHat(Player player) {
         player.getInventory().setHelmet(new ItemStack(Material.ICE));
     }

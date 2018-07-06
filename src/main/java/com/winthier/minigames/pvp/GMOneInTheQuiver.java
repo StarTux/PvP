@@ -1,11 +1,11 @@
 package com.winthier.minigames.pvp;
 
-import com.winthier.minigames.MinigamesPlugin;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.Effect;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -35,7 +35,7 @@ public class GMOneInTheQuiver extends GMAbstractGameMode {
 
     @Override
     public void load() {
-        final ConfigurationSection config = game.getConfigFile("OneInTheQuiver");
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(game.getDataFolder(), "OneInTheQuiver.yml"));
         for (Object o: config.getList("start")) {
             if (o instanceof ItemStack) starterKit.add((ItemStack)o);
         }
@@ -76,6 +76,6 @@ public class GMOneInTheQuiver extends GMAbstractGameMode {
                 }
                 arrow.getWorld().spigot().playEffect(arrow.getLocation(), Effect.MAGIC_CRIT, 0, 0, 0.2f, 0.2f, 0.2f, 0.25f, 8, 32);
             }
-        }.runTaskTimer(MinigamesPlugin.getInstance(), 5L, 5L);
+        }.runTaskTimer(game, 5L, 5L);
     }
 }

@@ -1,0 +1,11 @@
+name: PvP
+description: PvP mini game
+authors: [ StarTux ]
+version: 0.1-SNAPSHOT
+main: com.winthier.minigames.pvp.PvP
+depend: [ SQL, Connect ]
+softdepend: []
+commands:
+  colorfall:
+    aliases: [ready, tp, highscore, hi, quit]
+permissions: {}

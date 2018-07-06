@@ -1,9 +1,10 @@
 package com.winthier.minigames.pvp;
 
-import com.winthier.minigames.util.Title;
+import java.io.File;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -30,11 +31,11 @@ public class GMChickenHunt extends GMAbstractGameMode {
 
     @Override
     public int winAdvantage() { return 100; }
-    
+
     GMChickenHunt(PvP pvp) {
         this.pvp = pvp;
     }
-    
+
     @Override
     public void tickArena(long ticks) {
         int chickenTicks = this.chickenTicks--;
@@ -52,7 +53,7 @@ public class GMChickenHunt extends GMAbstractGameMode {
                 }
             }
             if (currentChicken != null) {
-                for (Player player: pvp.getOnlinePlayers()) {
+                for (Player player: pvp.getServer().getOnlinePlayers()) {
                     player.setCompassTarget(currentChicken.getLocation());
                 }
             }
@@ -94,8 +95,8 @@ public class GMChickenHunt extends GMAbstractGameMode {
         ArenaPlayer ap = pvp.getArenaPlayer(killer);
         ap.addScore(pointsPerChicken);
         this.chickenTicks = 20*2;
-        pvp.announceTitle("", "&4"+killer.getName()+" killed the chicken!");
-        pvp.announce("&3&lChickenHunt&r %s killed the chicken!", killer.getName());
+        Msg.announceTitle("", "&4"+killer.getName()+" killed the chicken!");
+        Msg.announce("&3&lChickenHunt&r %s killed the chicken!", killer.getName());
         Location loc = chicken.getLocation();
         loc.getWorld().strikeLightningEffect(loc);
         ItemStack arrow = new ItemStack(Material.ARROW);
@@ -116,12 +117,13 @@ public class GMChickenHunt extends GMAbstractGameMode {
         chicken.setHealth(HEALTH);
         chicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 99999, 0));
         currentChicken = chicken;
-        // pvp.announceTitle("", "&4A chicken just spawned!");
-        pvp.announce("&3&lChickenHunt&r A chicken just spawned! Kill it to win "+pointsPerChicken+" points.");
+        // Msg.announceTitle("", "&4A chicken just spawned!");
+        Msg.announce("&3&lChickenHunt&r A chicken just spawned! Kill it to win "+pointsPerChicken+" points.");
         // spawn firework
         Location fwLoc = loc.getWorld().getHighestBlockAt(loc.getBlockX(), loc.getBlockZ()).getLocation().add(0.5, 4.0, 0.5);
         Firework firework = (Firework)fwLoc.getWorld().spawnEntity(fwLoc, EntityType.FIREWORK);
-        FireworkMeta meta = (FireworkMeta)pvp.getConfigFile("ChickenHunt").getItemStack("SpecialFireworkEffect").getItemMeta();
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(pvp.getDataFolder(), "ChickenHunt.yml"));
+        FireworkMeta meta = (FireworkMeta)config.getItemStack("SpecialFireworkEffect").getItemMeta();
         firework.setFireworkMeta(meta);
     }
 }

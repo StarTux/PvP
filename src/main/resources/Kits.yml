@@ -1,0 +1,82 @@
+start:
+- ==: org.bukkit.inventory.ItemStack
+  type: WOOD_SWORD
+- ==: org.bukkit.inventory.ItemStack
+  type: BOW
+- ==: org.bukkit.inventory.ItemStack
+  type: ARROW
+  amount: 10
+- ==: org.bukkit.inventory.ItemStack
+  type: LEATHER_HELMET
+- ==: org.bukkit.inventory.ItemStack
+  type: LEATHER_CHESTPLATE
+- ==: org.bukkit.inventory.ItemStack
+  type: LEATHER_LEGGINGS
+- ==: org.bukkit.inventory.ItemStack
+  type: LEATHER_BOOTS
+kits:
+- ==: org.bukkit.inventory.ItemStack
+  type: ARROW
+  amount: 10
+- ==: org.bukkit.inventory.ItemStack
+  type: ARROW
+  amount: 20
+- ==: org.bukkit.inventory.ItemStack
+  type: ARROW
+  amount: 30
+- ==: org.bukkit.inventory.ItemStack
+  type: ENDER_PEARL
+  amount: 3
+- ==: org.bukkit.inventory.ItemStack
+  type: IRON_HELMET
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    enchants:
+      PROTECTION_PROJECTILE: 1
+- ==: org.bukkit.inventory.ItemStack
+  type: IRON_CHESTPLATE
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    enchants:
+      PROTECTION_PROJECTILE: 1
+- ==: org.bukkit.inventory.ItemStack
+  type: IRON_LEGGINGS
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    enchants:
+      PROTECTION_PROJECTILE: 1
+- ==: org.bukkit.inventory.ItemStack
+  type: IRON_BOOTS
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    enchants:
+      PROTECTION_PROJECTILE: 1
+- ==: org.bukkit.inventory.ItemStack
+  type: STONE_SWORD
+- ==: org.bukkit.inventory.ItemStack
+  type: IRON_SWORD
+- ==: org.bukkit.inventory.ItemStack
+  type: POTION
+  damage: 8193 #regen
+- ==: org.bukkit.inventory.ItemStack
+  type: POTION
+  damage: 8238 #invis
+- ==: org.bukkit.inventory.ItemStack
+  type: POTION
+  damage: 8261 #heal
+- ==: org.bukkit.inventory.ItemStack
+  type: POTION
+  damage: 8201 #strength
+- ==: org.bukkit.inventory.ItemStack
+  type: GOLDEN_APPLE
+- ==: org.bukkit.inventory.ItemStack
+  type: IRON_SWORD
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    enchants:
+      FIRE_ASPECT: 1

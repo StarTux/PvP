@@ -1,8 +1,9 @@
 package com.winthier.minigames.pvp;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -21,7 +22,7 @@ public class GMKits extends GMAbstractGameMode {
 
     @Override
     public void load() {
-        final ConfigurationSection config = game.getConfigFile("kits");
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(game.getDataFolder(), "Kits.yml"));
         for (Object o: config.getList("start")) {
             if (o instanceof ItemStack) starterKit.add((ItemStack)o);
         }
@@ -38,7 +39,7 @@ public class GMKits extends GMAbstractGameMode {
             }
             if (!kit.isEmpty()) kits.add(kit);
         }
-    }        
+    }
 
     @Override
     public void tickArena(long ticks) {

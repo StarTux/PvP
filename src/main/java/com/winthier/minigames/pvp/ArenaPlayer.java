@@ -1,12 +1,9 @@
 package com.winthier.minigames.pvp;
 
-import com.winthier.minigames.MinigamesPlugin;
-import com.winthier.minigames.player.PlayerInfo;
-import com.winthier.minigames.util.Players;
-import com.winthier.minigames.util.Title;
 import java.util.UUID;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Instrument;
@@ -15,7 +12,7 @@ import org.bukkit.Note;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-@Data
+@Getter @Setter
 public class ArenaPlayer
 {
     static enum Type { PLAYER, SPECTATOR; }
@@ -33,57 +30,46 @@ public class ArenaPlayer
     int score = 0;
     int deaths = 0;
     int streak = 0;
-    
-    public ArenaPlayer(PvP game, UUID uuid)
-    {
+    boolean hasJoinedBefore = false;
+
+    public ArenaPlayer(PvP game, UUID uuid) {
         this.game = game;
         this.uuid = uuid;
     }
 
-    void setup(Player player)
-    {
+    void setup(Player player) {
         this.name = player.getName();
         offlineTicks = 0;
     }
 
-    Player getPlayer()
-    {
+    Player getPlayer() {
         return Bukkit.getServer().getPlayer(uuid);
     }
 
-    PlayerInfo getInfo()
-    {
-        return game.getPlayer(uuid);
-    }
-
-    boolean isOnline()
-    {
+    boolean isOnline() {
         return getPlayer() != null;
     }
 
-    boolean isPlayer()
-    {
+    boolean isPlayer() {
         return playerType == Type.PLAYER;
     }
 
-    boolean isSpectator()
-    {
+    boolean isSpectator() {
         return playerType == Type.SPECTATOR;
     }
 
     void leave() {
-        MinigamesPlugin.getInstance().leavePlayer(uuid);
+        game.daemonRemovePlayer(uuid);
     }
 
     boolean isDead() {
         return deathCooldown > 0;
     }
 
-    void onTick()
-    {
+    void onTick() {
         Player player = getPlayer();
         if (player == null && offlineTicks++ > 20*60) {
-            MinigamesPlugin.getInstance().leavePlayer(uuid);
+            game.daemonRemovePlayer(uuid);
             return;
         }
         if (frozen && player != null) {
@@ -98,11 +84,11 @@ public class ArenaPlayer
                 Players.reset(player);
                 player.setGameMode(GameMode.ADVENTURE);
                 player.setScoreboard(game.scoreboard);
-                Title.show(player, "", "&aGo!");
+                Msg.sendTitle(player, "", "&aGo!");
                 player.playSound(player.getEyeLocation(), Sound.ENTITY_FIREWORK_LARGE_BLAST, 1f, 1f);
                 game.gameMode.onPlayerSpawn(this);
             } else if (left % 20 == 0 && left/20 <= 3) {
-                Title.show(player, "&a&o" + left/20, "&aGet ready!");
+                Msg.sendTitle(player, "&a&o" + left/20, "&aGet ready!");
                 player.playNote(player.getEyeLocation(), Instrument.PIANO, new Note(5));
             }
         }
@@ -118,7 +104,7 @@ public class ArenaPlayer
         }
         return null;
     }
-    
+
     void onKill(ArenaPlayer victim) {
         if (victim.equals(this)) return;
         if (game.getCurrentWinner().equals(victim) && victim.getScore() > 0) {
@@ -128,7 +114,7 @@ public class ArenaPlayer
         }
         streak += 1;
         if (streak > 2) {
-            game.announce("%s is on a kill streak of %d.", name, streak);
+            Msg.announce("%s is on a kill streak of %d.", name, streak);
         }
         game.sidebar.getScore(name).setScore(score);
     }
