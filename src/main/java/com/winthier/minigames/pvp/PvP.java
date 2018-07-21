@@ -80,7 +80,7 @@ public class PvP extends JavaPlugin implements Listener {
     //
     final Map<UUID, ArenaPlayer> arenaPlayers = new HashMap<>();
 
-    @Override
+    @Override @SuppressWarnings("unchecked")
     public void onEnable() {
         saveDefaultConfig();
         saveResource("Kits.yml", false);
@@ -205,7 +205,7 @@ public class PvP extends JavaPlugin implements Listener {
                 }
             }
             for (Player player : getServer().getOnlinePlayers()) {
-                player.playSound(player.getEyeLocation(), Sound.ENTITY_ENDERDRAGON_DEATH, 1f, 1f);
+                player.playSound(player.getEyeLocation(), Sound.ENTITY_ENDER_DRAGON_DEATH, 1f, 1f);
             }
             break;
         }
@@ -284,7 +284,7 @@ public class PvP extends JavaPlugin implements Listener {
             if (secondsLeft == 0) {
                 Msg.announceTitle("", "&a&oFight!");
                 for (Player player: getServer().getOnlinePlayers()) {
-                    player.playSound(player.getEyeLocation(), Sound.ENTITY_FIREWORK_LARGE_BLAST, 1f, 1f);
+                    player.playSound(player.getEyeLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST, 1f, 1f);
                 }
             } else if (secondsLeft <= 5) {
                 Msg.announceTitle("&a&o" + secondsLeft, "&aGet ready!");
@@ -348,7 +348,7 @@ public class PvP extends JavaPlugin implements Listener {
 
     private void setupScoreboard() {
         scoreboard = getServer().getScoreboardManager().getNewScoreboard();
-        sidebar = scoreboard.registerNewObjective("Sidebar", "dummy");
+        sidebar = scoreboard.registerNewObjective("Sidebar", "dummy", "PvP");
         sidebar.setDisplaySlot(DisplaySlot.SIDEBAR);
         sidebar.setDisplayName(Msg.format("&aPvP"));
         for (Player player: getServer().getOnlinePlayers()) {
@@ -532,7 +532,7 @@ public class PvP extends JavaPlugin implements Listener {
         case IRON_HELMET:
         case CHAINMAIL_HELMET:
         case DIAMOND_HELMET:
-        case GOLD_HELMET:
+        case GOLDEN_HELMET:
             if (inv.getHelmet() == null || inv.getHelmet().getType() == Material.AIR) {
                 inv.setHelmet(item);
                 return;
@@ -542,7 +542,7 @@ public class PvP extends JavaPlugin implements Listener {
         case IRON_CHESTPLATE:
         case CHAINMAIL_CHESTPLATE:
         case DIAMOND_CHESTPLATE:
-        case GOLD_CHESTPLATE:
+        case GOLDEN_CHESTPLATE:
             if (inv.getChestplate() == null || inv.getChestplate().getType() == Material.AIR) {
                 inv.setChestplate(item);
                 return;
@@ -552,7 +552,7 @@ public class PvP extends JavaPlugin implements Listener {
         case IRON_LEGGINGS:
         case CHAINMAIL_LEGGINGS:
         case DIAMOND_LEGGINGS:
-        case GOLD_LEGGINGS:
+        case GOLDEN_LEGGINGS:
             if (inv.getLeggings() == null || inv.getLeggings().getType() == Material.AIR) {
                 inv.setLeggings(item);
                 return;
@@ -562,7 +562,7 @@ public class PvP extends JavaPlugin implements Listener {
         case IRON_BOOTS:
         case CHAINMAIL_BOOTS:
         case DIAMOND_BOOTS:
-        case GOLD_BOOTS:
+        case GOLDEN_BOOTS:
             if (inv.getBoots() == null || inv.getBoots().getType() == Material.AIR) {
                 inv.setBoots(item);
                 return;
@@ -582,6 +582,7 @@ public class PvP extends JavaPlugin implements Listener {
     public void onConnectMessage(ConnectMessageEvent event) {
         final Message message = event.getMessage();
         if (message.getFrom().equals("daemon") && message.getChannel().equals("minigames")) {
+            @SuppressWarnings("unchecked")
             Map<String, Object> payload = (Map<String, Object>)message.getPayload();
             if (payload == null) return;
             boolean join = false;

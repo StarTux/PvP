@@ -3,8 +3,8 @@ package com.winthier.minigames.pvp;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import org.bukkit.Effect;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -74,7 +74,7 @@ public class GMOneInTheQuiver extends GMAbstractGameMode {
                     cancel();
                     return;
                 }
-                arrow.getWorld().spigot().playEffect(arrow.getLocation(), Effect.MAGIC_CRIT, 0, 0, 0.2f, 0.2f, 0.2f, 0.25f, 8, 32);
+                arrow.getWorld().spawnParticle(Particle.CRIT_MAGIC, arrow.getLocation(), 8, 0.2f, 0.2f, 0.2f, 0.25f);
             }
         }.runTaskTimer(game, 5L, 5L);
     }

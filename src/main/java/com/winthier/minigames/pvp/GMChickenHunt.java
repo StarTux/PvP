@@ -4,6 +4,7 @@ import java.io.File;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Entity;
@@ -113,7 +114,7 @@ public class GMChickenHunt extends GMAbstractGameMode {
         if (chicken == null) return;
         chicken.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 9999, 3));
         final double HEALTH = 20.0;
-        chicken.setMaxHealth(HEALTH);
+        chicken.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(HEALTH);
         chicken.setHealth(HEALTH);
         chicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 99999, 0));
         currentChicken = chicken;

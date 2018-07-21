@@ -85,7 +85,7 @@ public class ArenaPlayer
                 player.setGameMode(GameMode.ADVENTURE);
                 player.setScoreboard(game.scoreboard);
                 Msg.sendTitle(player, "", "&aGo!");
-                player.playSound(player.getEyeLocation(), Sound.ENTITY_FIREWORK_LARGE_BLAST, 1f, 1f);
+                player.playSound(player.getEyeLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST, 1f, 1f);
                 game.gameMode.onPlayerSpawn(this);
             } else if (left % 20 == 0 && left/20 <= 3) {
                 Msg.sendTitle(player, "&a&o" + left/20, "&aGet ready!");

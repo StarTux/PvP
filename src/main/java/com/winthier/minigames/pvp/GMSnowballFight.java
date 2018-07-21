@@ -1,7 +1,7 @@
 package com.winthier.minigames.pvp;
 
-import org.bukkit.Effect;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -28,7 +28,7 @@ public class GMSnowballFight extends GMAbstractGameMode {
     public String getName() { return "Snowball Fight"; }
 
     void giveSnowball(Player player) {
-        ItemStack item = new ItemStack(Material.SNOW_BALL);
+        ItemStack item = new ItemStack(Material.SNOWBALL);
         player.getWorld().dropItem(player.getEyeLocation(), item).setPickupDelay(0);
     }
 
@@ -51,13 +51,11 @@ public class GMSnowballFight extends GMAbstractGameMode {
             for (ArenaPlayer ap: game.getArenaPlayers()) {
                 if (ap.isPlayer() && ap.isOnline()) {
                     Player player = ap.getPlayer();
-                    if (!player.getInventory().contains(Material.SNOW_BALL)) {
+                    if (!player.getInventory().contains(Material.SNOWBALL)) {
                         giveSnowball(player);
                     }
                     if (!player.hasPotionEffect(PotionEffectType.SLOW)) {
                         removeIceHat(player);
-                    } else {
-                        
                     }
                 }
             }
@@ -87,7 +85,7 @@ public class GMSnowballFight extends GMAbstractGameMode {
             victim.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, VISION_DURATION, 0));
             victim.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, VISION_DURATION, 0));
             victim.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, SLOWNESS_DURATION, 0));
-            victim.getPlayer().playSound(victim.getPlayer().getEyeLocation(), Sound.ENTITY_ENDERDRAGON_HURT, 1.0f, 1.0f);
+            victim.getPlayer().playSound(victim.getPlayer().getEyeLocation(), Sound.ENTITY_ENDER_DRAGON_HURT, 1.0f, 1.0f);
             Msg.send(victim.getPlayer(), "&3&lSnowball Fight&c&o You've been hit by %s!", ap.getName());
             giveIceHat(victim.getPlayer());
             ap.addScore(1);
@@ -97,7 +95,7 @@ public class GMSnowballFight extends GMAbstractGameMode {
                 player.playSound(player.getEyeLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1.0f, 1.0f);
                 Msg.send(player, "&3&lSnowball Fight&r&o You hit &a&o%s&r&o!", victim.getName());
             }
-            victim.getPlayer().getWorld().spigot().playEffect(victim.getPlayer().getEyeLocation(), Effect.SNOWBALL_BREAK, 0, 0, 0.5f, 0.5f, 0.5f, 0.25f, 250, 64);
+            victim.getPlayer().getWorld().spawnParticle(Particle.SNOWBALL, victim.getPlayer().getEyeLocation(), 64, 0.5f, 0.5f, 0.5f, 0.25f);
         }
     }
 
